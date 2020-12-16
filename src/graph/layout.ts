@@ -43,11 +43,15 @@ export function stress(g: Array<Node>, idealDistance: number): number {
             if (i === j) continue
             const g2 = g[j]
             const k = `${g1.id}.${g2.id}`
-            if (!visited.has(k)) {
-                visited.add(k)
-                const d = g1.pos.dist(g2.pos)
-                s += (d - idealDistance) * (d - idealDistance)
+            if (visited.has(k)) {
+                continue
             }
+            visited.add(k)
+            if (!g1.edges.has(g2)) {
+                continue
+            }
+            const d = g1.pos.dist(g2.pos)
+            s += (d - idealDistance) * (d - idealDistance)
         }
     }
     return s
